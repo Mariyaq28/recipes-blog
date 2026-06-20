@@ -462,10 +462,8 @@ def admin_dashboard():
             return redirect(url_for('edit_recipe', recipe_id=recipe_id)) 
     return render_template('admin_dashboard.html', recipes=recipes)
 
-# Create Database and Tables (run once when starting the app)
-with app.app_context():
-    db.create_all()
-
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
 
