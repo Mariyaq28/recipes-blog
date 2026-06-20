@@ -11,9 +11,15 @@ from werkzeug.utils import secure_filename
 import re
 
 # Initialize Flask app
-app = Flask(__name__)
+if os.environ.get('VERCEL'):
+    app = Flask(__name__, instance_path='/tmp')
+    database_url = os.environ.get('DATABASE_URL', 'sqlite:////tmp/recipes.db')
+else:
+    app = Flask(__name__)
+    database_url = os.environ.get('DATABASE_URL', 'sqlite:///recipes.db')
+
 app.config['SECRET_KEY'] = 'your_secret_key'  # Replace with a strong secret key
-database_url = os.environ.get('DATABASE_URL', 'sqlite:///recipes.db')
+
 if database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
