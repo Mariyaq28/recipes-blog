@@ -1,0 +1,222 @@
+@import url('https://fonts.cdnfonts.com/css/gistesy');
+
+/* General Reset */
+body, h1, h2, h3, p, a {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body Styling */
+body {
+    line-height: 1.6;
+    color: #333;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/images/bg3.jpg');
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Wrapper for the Content */
+.wrapper {
+    flex: 1; /* This ensures the content takes up the remaining space */
+}
+
+/* Header */
+header {
+    background: #FF6830;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    position: relative; /* Ensures search bar is positioned correctly */
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 45px;
+}
+
+header .logo-title {
+    display: flex;
+    align-items: center;
+}
+
+header .logo-title .logo {
+    margin-right: 10px; /* Remove any default spacing */
+}
+
+header .logo-title h1 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Gistesy', sans-serif;
+    font-size: 2.5rem; /* Adjust font size as needed */
+    line-height: 1; /* Ensure vertical alignment */
+}
+
+header nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    color: #f8f9fa;
+    text-decoration: underline;
+}
+
+/* Responsive Menu Button */
+.menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+/* Profile Container */
+.profile-container {
+    width: 90%;
+    max-width: 1000px;
+    background: white;
+    padding: 30px;
+    margin: 30px auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.profile-card {
+    margin-bottom: 30px;
+}
+
+.profile-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #ff7f50;
+    margin-bottom: 15px;
+}
+
+.profile-card h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+.profile-card .email {
+    font-size: 0.9em;
+    color: #333;
+}
+
+/* Liked Recipes Section */
+.liked-recipes h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #526ba7;
+}
+
+.recipe-list {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+
+.recipe-item {
+    position: relative; /* Needed for positioning the unlike-form */
+    background: #f09b1b;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: hidden; /* Prevents content overflow */
+}
+
+.recipe-item a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.3em;
+    font-weight: bold;
+    display: block; /* Ensures the link is separate from the button */
+    margin-bottom: 10px; /* Adds spacing between the recipe name and the button */
+}
+
+.recipe-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background: #c66d11;
+}
+
+.unlike-form {
+    position: absolute;
+    bottom: 10px; /* Position the button below the recipe title */
+    right: 10px; /* Align the button to the bottom-right corner */
+    display: none; /* Hidden by default */
+}
+
+.recipe-item:hover .unlike-form {
+    display: block; /* Show on hover */
+}
+
+.unlike-btn {
+    background: rgb(210, 20, 20);
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cross-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.unlike-btn:hover {
+    background: rgb(180, 20, 20);
+}
+
+
+.no-recipes {
+    font-size: 1.2em;
+    color: #777;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background: #ff7f50;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #ff4500;
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto; /* Ensures the footer stays at the bottom */
+}
+
+footer p {
+    font-size: 1em;
+}
+
