@@ -4,6 +4,8 @@ from model import Recipe, User, Category, Ingredient, ContactMessage
 from repositories import RecipeRepository, UserRepository, CategoryRepository
 from database import db
 from flask_migrate import Migrate
+import cloudinary  # type: ignore
+import cloudinary.uploader  # type: ignore
 import os
 from werkzeug.utils import secure_filename
 import re
@@ -11,7 +13,10 @@ import re
 # Initialize Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'  # Replace with a strong secret key
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///recipes.db'  # SQLite database URI
+database_url = os.environ.get('DATABASE_URL', 'sqlite:///recipes.db')
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -217,11 +222,18 @@ def add_recipe():
         # Handle file upload
         image = request.files['image']
         if image and allowed_file(image.filename):
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            if os.environ.get('VERCEL') or os.environ.get('CLOUDINARY_URL'):
+                try:
+                    upload_result = cloudinary.uploader.upload(image)
+                    filename = upload_result['secure_url']
+                except Exception as e:
+                    print(f"Cloudinary upload failed: {e}")
+                    filename = 'default_image.jpg'
+            else:
+                filename = secure_filename(image.filename)
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         else:
             filename = 'default_image.jpg'  
-
         # Create the Recipe object
         recipe = Recipe(
             title=title,
@@ -308,10 +320,17 @@ def edit_recipe(recipe_id):
         if 'image' in request.files:
             image_file = request.files['image']
             if image_file and image_file.filename != '':
-                filename = secure_filename(image_file.filename)
-                image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                image_file.save(image_path)
-                recipe.image = filename
+                if os.environ.get('VERCEL') or os.environ.get('CLOUDINARY_URL'):
+                    try:
+                        upload_result = cloudinary.uploader.upload(image_file)
+                        recipe.image = upload_result['secure_url']
+                    except Exception as e:
+                        print(f"Cloudinary upload failed: {e}")
+                else:
+                    filename = secure_filename(image_file.filename)
+                    image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    image_file.save(image_path)
+                    recipe.image = filename
 
         # Save changes
         db.session.commit()
@@ -449,3 +468,4 @@ with app.app_context():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

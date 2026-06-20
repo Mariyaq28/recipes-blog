@@ -63,7 +63,7 @@
                 
                     <div class="preview-container">
                         {% if recipe and recipe.image %}
-                            <img id="preview" src="{{ url_for('static', filename='images/' + recipe.image) }}" alt="Image Preview" style="display: block;" />
+                            <img id="preview" src="{{ recipe.image if recipe.image.startswith('http') else url_for('static', filename='images/' + recipe.image) }}" alt="Image Preview" style="display: block;" />
                             <span id="filename" class="filename-text">{{recipe.image}}</span>
                         {% else %}
                             <img id="preview" src="#" alt="Image Preview" style="display: none;" />

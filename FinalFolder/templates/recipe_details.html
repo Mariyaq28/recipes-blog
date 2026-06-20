@@ -49,7 +49,7 @@
         <!-- Recipe Image -->
         <div class="recipe-image">
             {% if recipe.image %}
-            <img src="{{ url_for('static', filename='images/' + recipe.image) }}" alt="{{ recipe.title }}">
+            <img src="{{ recipe.image if recipe.image.startswith('http') else url_for('static', filename='images/' + recipe.image) }}" alt="{{ recipe.title }}">
             {% else %}
             <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="No Image Available">
             {% endif %}
